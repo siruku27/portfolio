@@ -14,19 +14,13 @@ type ColumnProps = { label: string; title: string; items: string[]; highlight?: 
 
 function Column({ label, title, items, highlight, compact }: ColumnProps) {
   return (
-    <div
-      className={`min-w-0 flex-1 rounded-xl border ${compact ? "p-3" : "p-4"} ${
-        highlight ? "border-accent bg-accent-soft" : "border-line bg-surface"
-      }`}
-    >
-      <p className="font-mono text-[10px] tracking-widest text-muted uppercase">{label}</p>
-      <p className={`mt-0.5 font-bold ${compact ? "text-xs" : "text-sm"}`}>{title}</p>
-      <ul className={compact ? "mt-2 space-y-1" : "mt-3 space-y-1.5"}>
+    <div className={`min-w-0 flex-1 border bg-bg ${compact ? "p-2.5" : "p-4"} ${highlight ? "border-amber" : "border-line"}`}>
+      <p className={`text-blue ${compact ? "text-[11px]" : "text-xs"}`}>{label}/</p>
+      <p className={`mt-0.5 font-bold ${compact ? "text-xs" : "text-sm"} ${highlight ? "text-amber" : ""}`}>{title}</p>
+      <ul className={compact ? "mt-1.5 space-y-0.5 text-[11px]" : "mt-3 space-y-1 text-xs"}>
         {items.map((item) => (
-          <li
-            key={item}
-            className={`truncate rounded-md border border-line bg-bg ${compact ? "px-2 py-0.5 text-[11px]" : "px-2.5 py-1.5 text-xs"}`}
-          >
+          <li key={item} className="truncate">
+            <span className="text-muted">- </span>
             {item}
           </li>
         ))}
@@ -38,26 +32,42 @@ function Column({ label, title, items, highlight, compact }: ColumnProps) {
 function ArchitectureDiagram({ compact }: { compact?: boolean }) {
   const variant = compact ? "short" : "full";
   return (
-    <div className={`flex h-full flex-col justify-center bg-bg ${compact ? "gap-2 p-3 sm:p-4" : "gap-3 p-4 sm:p-6"}`}>
-      <div
-        className={`flex items-stretch gap-2 ${compact ? "flex-row items-center" : "flex-col sm:flex-row sm:items-center sm:gap-3"}`}
-      >
-        <Column label="Before" title="独自PHP FW" items={before[variant]} compact={compact} />
-        <span aria-hidden className="text-center text-lg text-accent">
+    <div className={`flex h-full flex-col justify-center bg-panel ${compact ? "gap-2 p-3 sm:p-4" : "gap-3 p-4 sm:p-6"}`}>
+      <div className={`flex items-stretch gap-2 ${compact ? "flex-row items-center" : "flex-col sm:flex-row sm:items-center sm:gap-3"}`}>
+        <Column label="before" title="独自PHP FW" items={before[variant]} compact={compact} />
+        <span aria-hidden className="text-center text-amber">
           {compact ? "→" : <><span className="sm:hidden">↓</span><span className="hidden sm:inline">→</span></>}
         </span>
-        <Column label="After" title="Laravel 12" items={after[variant]} highlight compact={compact} />
+        <Column label="after" title="Laravel 12" items={after[variant]} highlight compact={compact} />
       </div>
-      <p className={`rounded-lg border border-dashed border-line text-center text-muted ${compact ? "px-2 py-1 text-[10px]" : "px-3 py-2 text-xs"}`}>
-        既存のMariaDB（テーブル定義は変更なし）
-      </p>
+      <p className={`text-muted ${compact ? "text-[10px]" : "text-xs"}`}>{"// 既存のMariaDB（テーブル定義は変更なし）"}</p>
     </div>
+  );
+}
+
+// 「ファイル名  # 説明」の形の行を、説明だけ薄く表示する。
+function Tree({ lines, compact }: { lines: string[]; compact?: boolean }) {
+  return (
+    <pre className={`h-full overflow-auto bg-panel leading-relaxed ${compact ? "p-4 text-[11px] sm:text-xs" : "p-5 text-xs sm:text-sm"}`}>
+      {lines.map((line) => {
+        const [, code, comment] = line.match(/^(.*?)(\s+# .*)?$/) ?? [];
+        return (
+          <span key={line} className="block">
+            {code}
+            {comment && <span className="text-muted">{comment}</span>}
+          </span>
+        );
+      })}
+    </pre>
   );
 }
 
 export default function WorkVisual({ work, priority, compact }: { work: Work; priority?: boolean; compact?: boolean }) {
   if (work.visual === "architecture") {
     return <ArchitectureDiagram compact={compact} />;
+  }
+  if (work.tree) {
+    return <Tree lines={work.tree} compact={compact} />;
   }
   if (work.image) {
     return (
@@ -72,7 +82,7 @@ export default function WorkVisual({ work, priority, compact }: { work: Work; pr
     );
   }
   return (
-    <div className="flex h-full items-center justify-center bg-accent-soft p-6 text-center text-lg font-bold text-accent">
+    <div className="flex h-full items-center justify-center bg-panel p-6 text-center font-bold text-amber">
       {work.title}
     </div>
   );

@@ -8,6 +8,8 @@ export type Work = {
   image?: { src: string; alt: string };
   // 画面を公開できない作品は、画像の代わりに構成図を出す。
   visual?: "architecture";
+  // 画面がない作品は、ファイル構成を tree コマンド風に出す。
+  tree?: string[];
   sections: { heading: string; items: string[] }[];
   note?: string;
   links?: { label: string; href: string }[];
@@ -142,6 +144,18 @@ export const works: Work[] = [
     summary:
       "売買ルールを過去のデータで検証し、仮想の資金で自動的に運用（ペーパートレード）するPythonのシステムです。運用の状況はダッシュボードで確認できます。",
     tags: ["Python", "pandas", "NumPy", "ccxt", "MariaDB", "cron"],
+    tree: [
+      "crypto-trader/",
+      "├── main.py            # バックテスト",
+      "├── walkforward.py     # ウォークフォワード検証",
+      "├── run_paper.py       # ペーパートレード",
+      "└── trader/",
+      "    ├── strategies.py  # 売買ルール",
+      "    ├── paper.py       # 仮想口座と約定",
+      "    ├── liquidity.py   # 板の実測",
+      "    ├── db.py          # MariaDB",
+      "    └── dashboard.py   # ダッシュボード出力",
+    ],
     sections: [
       {
         heading: "主な機能",

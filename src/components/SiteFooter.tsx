@@ -2,11 +2,12 @@ import { profile } from "@/data/profile";
 
 export default function SiteFooter() {
   return (
-    <footer className="border-t border-line">
-      <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-5 py-6 text-xs text-muted">
+    // 下に固定したステータスバーに隠れないよう、下側を空けておく。
+    <footer className="mx-auto w-full max-w-5xl px-4 pb-14 text-xs text-muted sm:px-6">
+      <div className="flex flex-wrap justify-between gap-2 border-t border-line pt-4">
         <p>© {profile.name}</p>
-        <a href={profile.githubUrl} className="hover:text-ink" target="_blank" rel="noreferrer">
-          GitHub
+        <a href={profile.githubUrl} className="hover:text-fg" target="_blank" rel="noreferrer">
+          github.com/siruku27 ↗
         </a>
       </div>
     </footer>

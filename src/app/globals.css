@@ -1,37 +1,31 @@
 @import "tailwindcss";
 
+/* ターミナルの見た目に合わせ、ダークの配色だけで統一する。 */
 :root {
-  --bg: #f7f6f2;
-  --surface: #ffffff;
-  --ink: #1d1e20;
-  --muted: #5b5f66;
-  --line: #e2e0d9;
-  --accent: #0f766e;
-  --accent-soft: #e3f2ef;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #111315;
-    --surface: #191c1f;
-    --ink: #ebe9e4;
-    --muted: #a2a6ac;
-    --line: #2d3136;
-    --accent: #5eead4;
-    --accent-soft: #13332f;
-  }
+  --bg: #0f1113;
+  --panel: #15181b;
+  --bar: #1b1f23;
+  --fg: #d9d7ce;
+  --muted: #80858c;
+  --line: #2a2f34;
+  --amber: #e2b35f;
+  --green: #98c379;
+  --blue: #79a8d8;
+  color-scheme: dark;
 }
 
 @theme inline {
   --color-bg: var(--bg);
-  --color-surface: var(--surface);
-  --color-ink: var(--ink);
+  --color-panel: var(--panel);
+  --color-bar: var(--bar);
+  --color-fg: var(--fg);
   --color-muted: var(--muted);
   --color-line: var(--line);
-  --color-accent: var(--accent);
-  --color-accent-soft: var(--accent-soft);
-  --font-sans: var(--font-noto-sans), "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --color-amber: var(--amber);
+  --color-green: var(--green);
+  --color-blue: var(--blue);
+  /* 英数字は JetBrains Mono、日本語は M PLUS 1 Code で表示する。 */
+  --font-mono: var(--font-jetbrains-mono), var(--font-mplus-code), ui-monospace, monospace;
 }
 
 html {
@@ -40,6 +34,31 @@ html {
 
 body {
   background: var(--bg);
-  color: var(--ink);
-  font-family: var(--font-sans);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: 15px;
+}
+
+::selection {
+  background: var(--amber);
+  color: var(--bg);
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.cursor {
+  animation: blink 1.1s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .cursor {
+    animation: none;
+  }
 }
