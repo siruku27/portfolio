@@ -5,7 +5,7 @@ export const profile = {
   catchcopy: ["古いPHPシステムを、", "安全で保守しやすい形に。"],
   lead: "情報工学科卒。大手ポータルサイトの開発現場でPHPの実務を経験し、現在はLaravel・React・Next.js・生成AIを使ったWebアプリケーション開発に取り組んでいます。",
   // クラウドワークスのプロフィールURL。空のままならボタンを出さない。
-  crowdworksUrl: "",
+  crowdworksUrl: "https://crowdworks.jp/public/employees/7126727",
   githubUrl: "https://github.com/siruku27",
 };
 
